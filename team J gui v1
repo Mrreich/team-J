@@ -1,0 +1,256 @@
+// Crear el cuadro (ventana)
+const cuadro = document.createElement("div");
+cuadro.style.position = "absolute";
+cuadro.style.top = "50px";
+cuadro.style.left = "50px";
+cuadro.style.width = "400px";
+cuadro.style.height = "300px";
+cuadro.style.background = "black";
+cuadro.style.color = "white";
+cuadro.style.padding = "20px";
+cuadro.style.borderRadius = "12px";
+cuadro.style.fontSize = "30px";
+cuadro.style.fontFamily = "Arial";
+cuadro.style.boxShadow = "0 10px 25px rgba(0,0,0,0.4)";
+cuadro.style.transition = "transform 0.4s ease, opacity 0.4s ease, width 0.6s ease, height 0.6s ease";
+cuadro.textContent = "team J";
+document.body.appendChild(cuadro);
+
+// Tamaño estándar para todos los botones
+const btnWidth = "28px";
+const btnHeight = "28px";
+
+// Crear botón "+" para mover (único que arrastra)
+const moverBtn = document.createElement("button");
+moverBtn.textContent = "+";
+moverBtn.style.position = "absolute";
+moverBtn.style.top = "10px";
+moverBtn.style.right = "86px";
+moverBtn.style.width = btnWidth;
+moverBtn.style.height = btnHeight;
+moverBtn.style.background = "gray";
+moverBtn.style.color = "white";
+moverBtn.style.border = "none";
+moverBtn.style.borderRadius = "5px";
+moverBtn.style.cursor = "grab";
+moverBtn.style.fontSize = "18px";
+moverBtn.style.transition = "transform 0.8s ease";
+cuadro.appendChild(moverBtn);
+
+// Crear botón "_" para minimizar
+const minimizarBtn = document.createElement("button");
+minimizarBtn.textContent = "_";
+minimizarBtn.style.position = "absolute";
+minimizarBtn.style.top = "10px";
+minimizarBtn.style.right = "48px";
+minimizarBtn.style.width = btnWidth;
+minimizarBtn.style.height = btnHeight;
+minimizarBtn.style.background = "gray";
+minimizarBtn.style.color = "white";
+minimizarBtn.style.border = "none";
+minimizarBtn.style.borderRadius = "5px";
+minimizarBtn.style.cursor = "pointer";
+minimizarBtn.style.fontSize = "18px";
+minimizarBtn.style.transition = "transform 0.8s ease";
+cuadro.appendChild(minimizarBtn);
+
+// Crear botón "X" para cerrar
+const cerrarBtn = document.createElement("button");
+cerrarBtn.textContent = "X";
+cerrarBtn.style.position = "absolute";
+cerrarBtn.style.top = "10px";
+cerrarBtn.style.right = "10px";
+cerrarBtn.style.width = btnWidth;
+cerrarBtn.style.height = btnHeight;
+cerrarBtn.style.background = "gray";
+cerrarBtn.style.color = "white";
+cerrarBtn.style.border = "none";
+cerrarBtn.style.borderRadius = "5px";
+cerrarBtn.style.cursor = "pointer";
+cerrarBtn.style.fontSize = "18px";
+cerrarBtn.style.transition = "transform 0.8s ease";
+cuadro.appendChild(cerrarBtn);
+
+// Crear contenedor para "answer esp" + botón execute
+const answerContainer = document.createElement("div");
+answerContainer.style.position = "absolute";
+answerContainer.style.bottom = "15px";
+answerContainer.style.left = "20px";
+answerContainer.style.display = "flex";
+answerContainer.style.alignItems = "center";
+answerContainer.style.gap = "10px";
+answerContainer.style.fontSize = "20px";
+answerContainer.style.color = "white";
+answerContainer.style.transform = "translate(0,0)";
+answerContainer.style.transition = "transform 0.8s ease";
+cuadro.appendChild(answerContainer);
+
+// Texto "answer esp:"
+const answerLabel = document.createElement("span");
+answerLabel.textContent = "answer esp:";
+answerContainer.appendChild(answerLabel);
+
+// Botón execute
+const executeBtn = document.createElement("button");
+executeBtn.textContent = "execute";
+executeBtn.style.width = "80px";
+executeBtn.style.height = "30px";
+executeBtn.style.background = "gray";
+executeBtn.style.color = "white";
+executeBtn.style.border = "none";
+executeBtn.style.borderRadius = "5px";
+executeBtn.style.cursor = "pointer";
+executeBtn.style.fontSize = "16px";
+executeBtn.style.transition = "transform 0.15s ease";
+answerContainer.appendChild(executeBtn);
+
+// Animación de presionar para execute
+executeBtn.addEventListener("mousedown", () => {
+    executeBtn.style.transform = "scale(0.85)";
+});
+executeBtn.addEventListener("mouseup", () => {
+    executeBtn.style.transform = "scale(1)";
+});
+
+// ⭐ EJECUTAR COLORES AL PRESIONAR EXECUTE ⭐
+let ejecutando = false;
+executeBtn.addEventListener("click", () => {
+    const cheat = (async () => {
+    if (ejecutando) return;
+    ejecutando = true;
+
+    setInterval(() => {
+        const { stateNode } = Object.values(
+            (function react(r = document.querySelector("body>div")) {
+                return Object.values(r)[1]?.children?.[0]?._owner.stateNode
+                    ? r
+                    : react(r.querySelector(":scope>div"));
+            })()
+        )[1].children[0]._owner;
+
+        const Question = stateNode.state.question || stateNode.props.client.question;
+
+        let ind = 0;
+
+        while (ind < Question.answers.length) {
+            let found = false;
+
+            for (let j = 0; j < Question.correctAnswers.length; j++) {
+                if (Question.answers[ind] == Question.correctAnswers[j]) {
+                    found = true;
+                    break;
+                }
+            }
+
+            // Aquí simplemente mostramos el resultado de la comparación
+            // (sin realizar ninguna acción sobre el juego)
+            const answerButtons = document.querySelectorAll("[class*='answerContainer']");
+
+            if (answerButtons[ind]) {
+                if (found) {
+                    answerButtons[ind].style.backgroundColor = "green";
+                } else {
+                    answerButtons[ind].style.backgroundColor = "red";
+                }
+            }
+
+            ind++;
+        }
+    }, 1);
+
+    })();
+    });
+// EFECTO SUAVE SIN TELETRANSPORTES
+cerrarBtn.addEventListener("click", () => {
+
+    const rect = cuadro.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    function moverAlCentro(btn) {
+        const b = btn.getBoundingClientRect();
+        const offsetX = centerX - (b.left - rect.left) - b.width / 2;
+        const offsetY = centerY - (b.top - rect.top) - b.height / 2;
+
+        btn.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1)`;
+    }
+
+    moverAlCentro(moverBtn);
+    moverAlCentro(minimizarBtn);
+    moverAlCentro(cerrarBtn);
+    moverAlCentro(answerContainer);
+
+    setTimeout(() => {
+        moverBtn.style.transform += " scale(0.05)";
+        minimizarBtn.style.transform += " scale(0.05)";
+        cerrarBtn.style.transform += " scale(0.05)";
+        answerContainer.style.transform += " scale(0.05)";
+    }, 800);
+
+    setTimeout(() => {
+        cuadro.style.transform = "scale(0.05)";
+        cuadro.style.opacity = "0";
+    }, 1100);
+
+    setTimeout(() => {
+        cuadro.remove();
+    }, 1500);
+});
+
+// Acción de minimizar con animación suave
+let minimizado = false;
+
+minimizarBtn.addEventListener("click", () => {
+    if (!minimizado) {
+        cuadro.style.height = "80px";
+        cuadro.style.width = "260px";
+        answerContainer.style.display = "none";
+        minimizado = true;
+    } else {
+        cuadro.style.height = "300px";
+        cuadro.style.width = "400px";
+        answerContainer.style.display = "flex";
+        minimizado = false;
+    }
+});
+
+// Variables para arrastrar suavemente (solo botón +)
+let arrastrando = false;
+let offsetX = 0;
+let offsetY = 0;
+
+let targetX = cuadro.offsetLeft;
+let targetY = cuadro.offsetTop;
+
+moverBtn.addEventListener("mousedown", (e) => {
+    arrastrando = true;
+    offsetX = e.clientX - cuadro.offsetLeft;
+    offsetY = e.clientY - cuadro.offsetTop;
+    moverBtn.style.cursor = "grabbing";
+    moverBtn.style.transform = "scale(0.85)";
+});
+
+// Movimiento suave usando interpolación lenta
+function animar() {
+    const currentX = parseFloat(cuadro.style.left);
+    const currentY = parseFloat(cuadro.style.top);
+
+    cuadro.style.left = currentX + (targetX - currentX) * 0.05 + "px";
+    cuadro.style.top = currentY + (targetY - currentY) * 0.05 + "px";
+
+    requestAnimationFrame(animar);
+}
+animar();
+
+document.addEventListener("mousemove", (e) => {
+    if (arrastrando) {
+        targetX = e.clientX - offsetX;
+        targetY = e.clientY - offsetY;
+    }
+});
+
+document.addEventListener("mouseup", () => {
+    arrastrando = false;
+    moverBtn.style.cursor = "grab";
+    moverBtn.style.transform = "scale(1)";
+});
