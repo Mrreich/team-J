@@ -1,0 +1,59 @@
+-- Crear ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "TeamJGui"
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Crear marco
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 250, 0, 120)
+frame.Position = UDim2.new(0, 20, 0, 20)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+-- Título
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 40)
+title.BackgroundTransparency = 1
+title.Text = "team J gui"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 24
+title.Parent = frame
+
+-- Botón
+local btn = Instance.new("TextButton")
+btn.Size = UDim2.new(1, -20, 0, 50)
+btn.Position = UDim2.new(0, 10, 0, 50)
+btn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+btn.Text = "Teleport 1000 studs"
+btn.Font = Enum.Font.Gotham
+btn.TextSize = 20
+btn.Parent = frame
+
+-- Función de movimiento suave
+local function moveSmooth(distance, speed)
+    local player = game.Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+    local root = char:WaitForChild("HumanoidRootPart")
+
+    local startPos = root.Position
+    local endPos = startPos + root.CFrame.LookVector * distance
+
+    local duration = distance / speed
+    local startTime = tick()
+
+    while tick() - startTime < duration do
+        local alpha = (tick() - startTime) / duration
+        root.CFrame = CFrame.new(startPos:Lerp(endPos, alpha))
+        task.wait()
+    end
+
+    root.CFrame = CFrame.new(endPos)
+end
+
+-- Evento del botón
+btn.MouseButton1Click:Connect(function()
+    moveSmooth(1000, 100) -- 1000 studs a velocidad 100
+end)
