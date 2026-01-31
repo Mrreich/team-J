@@ -142,8 +142,6 @@ executeBtn.addEventListener("click", () => {
                 }
             }
 
-            // Aquí simplemente mostramos el resultado de la comparación
-            // (sin realizar ninguna acción sobre el juego)
             const answerButtons = document.querySelectorAll("[class*='answerContainer']");
 
             if (answerButtons[ind]) {
@@ -159,8 +157,165 @@ executeBtn.addEventListener("click", () => {
     }, 1);
 
     })();
-    });
-// EFECTO SUAVE SIN TELETRANSPORTES
+});
+
+// ⭐⭐⭐ NUEVO BLOQUE COMPLETO: AUTO ANSWER ⭐⭐⭐
+
+const autoContainer = document.createElement("div");
+autoContainer.style.position = "absolute";
+autoContainer.style.bottom = "60px";
+autoContainer.style.left = "20px";
+autoContainer.style.display = "flex";
+autoContainer.style.alignItems = "center";
+autoContainer.style.gap = "10px";
+autoContainer.style.fontSize = "20px";
+autoContainer.style.color = "white";
+autoContainer.style.transition = "transform 0.8s ease"; // ⭐ SUAVIZA EL MOVIMIENTO
+cuadro.appendChild(autoContainer);
+
+const autoLabel = document.createElement("span");
+autoLabel.textContent = "auto answer:";
+autoContainer.appendChild(autoLabel);
+
+const autoExecuteBtn = document.createElement("button");
+autoExecuteBtn.textContent = "execute";
+autoExecuteBtn.style.width = "80px";
+autoExecuteBtn.style.height = "30px";
+autoExecuteBtn.style.background = "gray";
+autoExecuteBtn.style.color = "white";
+autoExecuteBtn.style.border = "none";
+autoExecuteBtn.style.borderRadius = "5px";
+autoExecuteBtn.style.cursor = "pointer";
+autoExecuteBtn.style.fontSize = "16px";
+autoExecuteBtn.style.transition = "transform 0.15s ease";
+autoContainer.appendChild(autoExecuteBtn);
+
+autoExecuteBtn.addEventListener("mousedown", () => {
+    autoExecuteBtn.style.transform = "scale(0.85)";
+});
+autoExecuteBtn.addEventListener("mouseup", () => {
+    autoExecuteBtn.style.transform = "scale(1)";
+autoExecuteBtn.addEventListener("mouseup", () => {
+    autoExecuteBtn.style.transform = "scale(1)";
+});
+
+// AQUÍ FALTA TU BLOQUE COMPLETO DE AUTOANSWER
+
+// Y LUEGO DEBE CERRAR ASÍ:
+
+}); // ← cierre del addEventListener principal
+
+//placeholder🥀
+autoExecuteBtn.addEventListener("click", () => {
+
+    (() => {
+
+        let iframe = document.querySelector("iframe");
+        if (!iframe) {
+            iframe = document.createElement("iframe");
+            iframe.style.display = "none";
+            document.body.append(iframe);
+        }
+
+        /* By CryptoDude3 */
+        if (window.fetch.call.toString() == 'function call() { [native code] }') {
+            const call = window.fetch.call;
+            window.fetch.call = function () {
+                if (!arguments[1].includes("s.blooket.com/rc")) {
+                    return call.apply(this, arguments);
+                }
+            };
+        }
+
+        const timeProcessed = 1730769906975;
+        let latestProcess = -1;
+
+        const cheat = async () => {
+            const { stateNode } = Object.values(
+                (function react(r = document.querySelector("body>div")) {
+                    return Object.values(r)[1]?.children?.[0]?._owner.stateNode
+                        ? r
+                        : react(r.querySelector(":scope>div"));
+                })()
+            )[1].children[0]._owner;
+
+            const Question = stateNode.state.question || stateNode.props.client.question;
+
+            if (stateNode.state.question.qType != "typing") {
+                if (stateNode.state.stage != "feedback" && !stateNode.state.feedback) {
+                    let ind;
+                    for (ind = 0; ind < Question.answers.length; ind++) {
+                        let found = false;
+                        for (let j = 0; j < Question.correctAnswers.length; j++) {
+                            if (Question.answers[ind] == Question.correctAnswers[j]) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (found) break;
+                    }
+                    document.querySelectorAll("[class*='answerContainer']")[ind]?.click();
+                } else {
+                    document.querySelector("[class*='feedback'], [id*='feedback']")?.firstChild?.click();
+                }
+            } else {
+                Object.values(document.querySelector("[class*='typingAnswerWrapper']"))[1]
+                    .children._owner.stateNode.sendAnswer?.(Question.answers[0]);
+            }
+        };
+
+        let img = new Image();
+        img.src = "https://raw.githubusercontent.com/Blooket-Council/Blooket-Cheats/main/autoupdate/timestamps/global/autoAnswer.png?" + Date.now();
+        img.crossOrigin = "Anonymous";
+
+        img.onload = function () {
+            const c = document.createElement("canvas");
+            const ctx = c.getContext("2d");
+
+            ctx.drawImage(img, 0, 0, this.width, this.height);
+
+            let { data } = ctx.getImageData(0, 0, this.width, this.height),
+                decode = "",
+                last;
+
+            let i = 0;
+            while (i < data.length) {
+                let char = String.fromCharCode(
+                    data[i % 4 == 3 ? (i++, i++) : i++] +
+                    data[i % 4 == 3 ? (i++, i++) : i++] * 256
+                );
+                decode += char;
+                if (char == "/" && last == "*") break;
+                last = char;
+            }
+
+            let _, time = timeProcessed,
+                error = "There was an error checking for script updates. Run cheat anyway?";
+
+            try {
+                [_, time, error] = decode.match(/LastUpdated: (.+?); ErrorMessage: "((.|\n)+?)"/);
+            } catch (e) {}
+
+            if ((latestProcess = parseInt(time)) <= timeProcessed || iframe.contentWindow.confirm(error)) {
+                cheat();
+            }
+        };
+
+        img.onerror = img.onabort = () => {
+            img.onerror = img.onabort = null;
+            cheat();
+        };
+    // ⭐ Aquí va el bucle infinito
+    setInterval(() => {
+        cheat();
+    }, 1);
+
+    })(); // ⭐ CIERRE CORRECTO DEL IIFE
+
+}); // ⭐ CIERRE CORRECTO DEL addEventListener
+
+// ⭐⭐⭐ INTEGRACIÓN EN CERRAR (botón X) ⭐⭐⭐
+
 cerrarBtn.addEventListener("click", () => {
 
     const rect = cuadro.getBoundingClientRect();
@@ -179,12 +334,14 @@ cerrarBtn.addEventListener("click", () => {
     moverAlCentro(minimizarBtn);
     moverAlCentro(cerrarBtn);
     moverAlCentro(answerContainer);
+    moverAlCentro(autoContainer); // ⭐ AÑADIDO
 
     setTimeout(() => {
         moverBtn.style.transform += " scale(0.05)";
         minimizarBtn.style.transform += " scale(0.05)";
         cerrarBtn.style.transform += " scale(0.05)";
         answerContainer.style.transform += " scale(0.05)";
+        autoContainer.style.transform += " scale(0.05)"; // ⭐ AÑADIDO
     }, 800);
 
     setTimeout(() => {
@@ -197,25 +354,29 @@ cerrarBtn.addEventListener("click", () => {
     }, 1500);
 });
 
-// Acción de minimizar con animación suave
-let minimizado = false;
+// ⭐⭐⭐ INTEGRACIÓN EN MINIMIZAR ⭐⭐⭐
+
+let minimizado2 = false;
 
 minimizarBtn.addEventListener("click", () => {
-    if (!minimizado) {
+    if (!minimizado2) {
         cuadro.style.height = "80px";
         cuadro.style.width = "260px";
         answerContainer.style.display = "none";
-        minimizado = true;
+        autoContainer.style.display = "none"; // ⭐ AÑADIDO
+        minimizado2 = true;
     } else {
         cuadro.style.height = "300px";
         cuadro.style.width = "400px";
         answerContainer.style.display = "flex";
-        minimizado = false;
+        autoContainer.style.display = "flex"; // ⭐ AÑADIDO
+        minimizado2 = false;
     }
 });
 
-// Variables para arrastrar suavemente (solo botón +)
-let arrastrando = false;
+// ⭐⭐⭐ ARRASTRAR ⭐⭐⭐
+
+let arrastrando2 = false;
 let offsetX = 0;
 let offsetY = 0;
 
@@ -223,14 +384,13 @@ let targetX = cuadro.offsetLeft;
 let targetY = cuadro.offsetTop;
 
 moverBtn.addEventListener("mousedown", (e) => {
-    arrastrando = true;
+    arrastrando2 = true;
     offsetX = e.clientX - cuadro.offsetLeft;
     offsetY = e.clientY - cuadro.offsetTop;
     moverBtn.style.cursor = "grabbing";
     moverBtn.style.transform = "scale(0.85)";
 });
 
-// Movimiento suave usando interpolación lenta
 function animar() {
     const currentX = parseFloat(cuadro.style.left);
     const currentY = parseFloat(cuadro.style.top);
@@ -243,7 +403,7 @@ function animar() {
 animar();
 
 document.addEventListener("mousemove", (e) => {
-    if (arrastrando) {
+    if (arrastrando2) {
         targetX = e.clientX - offsetX;
         targetY = e.clientY - offsetY;
     }
@@ -253,4 +413,45 @@ document.addEventListener("mouseup", () => {
     arrastrando = false;
     moverBtn.style.cursor = "grab";
     moverBtn.style.transform = "scale(1)";
+});
+
+
+// ⭐⭐⭐ INTEGRACIÓN EN CERRAR (botón X) ⭐⭐⭐
+
+cerrarBtn.addEventListener("click", () => {
+
+    const rect = cuadro.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    function moverAlCentro(btn) {
+        const b = btn.getBoundingClientRect();
+        const offsetX = centerX - (b.left - rect.left) - b.width / 2;
+        const offsetY = centerY - (b.top - rect.top) - b.height / 2;
+
+        btn.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1)`;
+    }
+
+    moverAlCentro(moverBtn);
+    moverAlCentro(minimizarBtn);
+    moverAlCentro(cerrarBtn);
+    moverAlCentro(answerContainer);
+    moverAlCentro(autoContainer); // ⭐ AÑADIDO
+
+    setTimeout(() => {
+        moverBtn.style.transform += " scale(0.05)";
+        minimizarBtn.style.transform += " scale(0.05)";
+        cerrarBtn.style.transform += " scale(0.05)";
+        answerContainer.style.transform += " scale(0.05)";
+        autoContainer.style.transform += " scale(0.05)"; // ⭐ AÑADIDO
+    }, 800);
+
+    setTimeout(() => {
+        cuadro.style.transform = "scale(0.05)";
+        cuadro.style.opacity = "0";
+    }, 1100);
+
+    setTimeout(() => {
+        cuadro.remove();
+    }, 1500);
 });
